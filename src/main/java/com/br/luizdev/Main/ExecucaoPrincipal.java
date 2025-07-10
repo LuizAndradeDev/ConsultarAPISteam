@@ -1,8 +1,9 @@
 package com.br.luizdev.Main;
 
-import com.br.luizdev.Modelo.DadosDoJogo;
-import com.br.luizdev.Modelo.JogoDadosBusca;
-import com.br.luizdev.Modelo.JogoInformacoes;
+import com.br.luizdev.Modelo.JsonModels.DadosDoJogo;
+import com.br.luizdev.Modelo.JsonModels.JogoDadosBusca;
+import com.br.luizdev.Modelo.JsonModels.JogoInformacoes;
+import com.br.luizdev.Modelo.ObjetosModel.Jogo;
 import com.br.luizdev.Service.ConsumoAPI;
 import com.br.luizdev.Service.ConverteDados;
 import com.fasterxml.jackson.annotation.JsonAlias;
@@ -48,13 +49,16 @@ public class ExecucaoPrincipal {
         Map<String, DadosDoJogo> mapa = converter.obterDadosMap(json, new TypeReference<>() {});
         JogoInformacoes jogoInfo = mapa.values().stream().findFirst().orElseThrow().data();
 
+        Jogo jogo = new Jogo(jogoInfo);
 
         System.out.println("#################" +
-                "\nNome: " + jogoInfo.nome() +
-                "\nDistribuidoras: " + jogoInfo.distribuidora() +
-                "\nPreço original: R$ " + jogoInfo.preco().precoOriginal()/100.0 +
-                "\nPreço atual: R$ " + jogoInfo.preco().precoAtual()/100.0 +
+                "\nNome: " + jogo.getNome() +
+                "\nDistribuidoras: " + jogo.getDistribuidoras() +
+                "\nPreço original: R$ " + jogo.getPrecoOriginal() +
+                "\nPreço atual: R$ " + jogo.getPrecoAtual() +
                 "\n#################");
+
+
 
 
     }
