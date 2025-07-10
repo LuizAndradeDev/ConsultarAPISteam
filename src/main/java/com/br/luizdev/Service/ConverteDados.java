@@ -1,6 +1,7 @@
 package com.br.luizdev.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ConverteDados implements IConverteDados{
@@ -15,4 +16,14 @@ public class ConverteDados implements IConverteDados{
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public <T> T obterDadosMap(String json, TypeReference<T> typeReference) {
+        try {
+            return mapper.readValue(json, typeReference);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
