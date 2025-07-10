@@ -9,6 +9,7 @@ import com.br.luizdev.Service.ConverteDados;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.core.type.TypeReference;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -25,7 +26,7 @@ public class ExecucaoPrincipal {
     private ConsumoAPI buscar = new ConsumoAPI();
     private final String listaDeJogos = "https://api.steampowered.com/ISteamApps/GetAppList/v2/";
     private final String dadosDeJogos = "https://store.steampowered.com/api/appdetails?appids=";
-
+    private List<Jogo> listaDeFavoritos = new ArrayList<>();
 
     public void Iniciar() {
         var json = buscar.obterDados(listaDeJogos);
@@ -58,7 +59,13 @@ public class ExecucaoPrincipal {
                 "\nPreço atual: R$ " + jogo.getPrecoAtual() +
                 "\n#################");
 
-
+        System.out.println("\nDeseja adicionar esse jogo aos favoritos? " +
+                "\n1 -- SIM" +
+                "\n2 -- NÂO");
+        int numero;
+        if ((numero = scanner.nextInt()) == 1){
+            System.out.println("Item adicionado!!");
+        }
 
 
     }
