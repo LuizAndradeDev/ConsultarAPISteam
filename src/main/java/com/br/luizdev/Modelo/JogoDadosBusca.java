@@ -5,5 +5,5 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record JogoDadosBusca(@JsonAlias("appid") Integer id,
-                             @JsonAlias("nome") String nome) {
+                             @JsonAlias("name") String nome) {
 }
