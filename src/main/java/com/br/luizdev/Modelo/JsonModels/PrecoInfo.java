@@ -1,4 +1,4 @@
-package com.br.luizdev.Modelo;
+package com.br.luizdev.Modelo.JsonModels;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

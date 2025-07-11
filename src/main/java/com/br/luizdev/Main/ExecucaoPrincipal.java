@@ -1,13 +1,15 @@
 package com.br.luizdev.Main;
 
-import com.br.luizdev.Modelo.DadosDoJogo;
-import com.br.luizdev.Modelo.JogoDadosBusca;
-import com.br.luizdev.Modelo.JogoInformacoes;
+import com.br.luizdev.Modelo.JsonModels.DadosDoJogo;
+import com.br.luizdev.Modelo.JsonModels.JogoDadosBusca;
+import com.br.luizdev.Modelo.JsonModels.JogoInformacoes;
+import com.br.luizdev.Modelo.ObjetosModel.Jogo;
 import com.br.luizdev.Service.ConsumoAPI;
 import com.br.luizdev.Service.ConverteDados;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.core.type.TypeReference;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -24,6 +26,8 @@ public class ExecucaoPrincipal {
     private ConsumoAPI buscar = new ConsumoAPI();
     private final String listaDeJogos = "https://api.steampowered.com/ISteamApps/GetAppList/v2/";
     private final String dadosDeJogos = "https://store.steampowered.com/api/appdetails?appids=";
+    private List<Jogo> listaDeFavoritos = new ArrayList<>();
+
 
 
     public void Iniciar() {
@@ -45,18 +49,41 @@ public class ExecucaoPrincipal {
 
 
         json = buscar.obterDados(dadosDeJogos + idSelect);
-        Map<String, DadosDoJogo> mapa = converter.obterDadosMap(json, new TypeReference<>() {});
+        Map<String, DadosDoJogo> mapa = converter.obterDadosMap(json, new TypeReference<>() {
+        });
         JogoInformacoes jogoInfo = mapa.values().stream().findFirst().orElseThrow().data();
 
+        Jogo jogo = new Jogo(jogoInfo);
 
         System.out.println("#################" +
-                "\nNome: " + jogoInfo.nome() +
-                "\nDistribuidoras: " + jogoInfo.distribuidora() +
-                "\nPreço original: R$ " + jogoInfo.preco().precoOriginal()/100.0 +
-                "\nPreço atual: R$ " + jogoInfo.preco().precoAtual()/100.0 +
+                "\nNome: " + jogo.getNome() +
+                "\nDistribuidoras: " + jogo.getDistribuidoras() +
+                "\nPreço original: R$ " + jogo.getPrecoOriginal() +
+                "\nPreço atual: R$ " + jogo.getPrecoAtual() +
                 "\n#################");
 
+        System.out.println("\nDeseja adicionar esse jogo aos favoritos? " +
+                "\n1 -- SIM" +
+                "\n2 -- NÂO");
+        int numero;
+        if ((numero = scanner.nextInt()) == 1) {
+            listaDeFavoritos.add(jogo);
+            System.out.println("Jogo adicionado");
+        }
+        scanner.nextLine();
 
     }
 
+    public void ExibirFavoritos() {
+        listaDeFavoritos.stream().forEach(lf -> System.out.println("Nome: " + lf.getNome()
+                + "\nPreço Atual: " + lf.getPrecoAtual() + "\n########"));
+    }
+
+    public void ExibirMenu(){
+        System.out.println("######-Menu-######" +
+                "\n1 -- Pesquisar Jogo" +
+                "\n2 -- Exibir Favoritos" +
+                "\n3 -- Sair " +
+                "\n################");
+    }
 }
