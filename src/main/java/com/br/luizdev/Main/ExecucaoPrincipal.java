@@ -28,6 +28,8 @@ public class ExecucaoPrincipal {
     private final String dadosDeJogos = "https://store.steampowered.com/api/appdetails?appids=";
     private List<Jogo> listaDeFavoritos = new ArrayList<>();
 
+
+
     public void Iniciar() {
         var json = buscar.obterDados(listaDeJogos);
 
@@ -47,7 +49,8 @@ public class ExecucaoPrincipal {
 
 
         json = buscar.obterDados(dadosDeJogos + idSelect);
-        Map<String, DadosDoJogo> mapa = converter.obterDadosMap(json, new TypeReference<>() {});
+        Map<String, DadosDoJogo> mapa = converter.obterDadosMap(json, new TypeReference<>() {
+        });
         JogoInformacoes jogoInfo = mapa.values().stream().findFirst().orElseThrow().data();
 
         Jogo jogo = new Jogo(jogoInfo);
@@ -63,11 +66,24 @@ public class ExecucaoPrincipal {
                 "\n1 -- SIM" +
                 "\n2 -- NÂO");
         int numero;
-        if ((numero = scanner.nextInt()) == 1){
-            System.out.println("Item adicionado!!");
+        if ((numero = scanner.nextInt()) == 1) {
+            listaDeFavoritos.add(jogo);
+            System.out.println("Jogo adicionado");
         }
-
+        scanner.nextLine();
 
     }
 
+    public void ExibirFavoritos() {
+        listaDeFavoritos.stream().forEach(lf -> System.out.println("Nome: " + lf.getNome()
+                + "\nPreço Atual: " + lf.getPrecoAtual() + "\n########"));
+    }
+
+    public void ExibirMenu(){
+        System.out.println("######-Menu-######" +
+                "\n1 -- Pesquisar Jogo" +
+                "\n2 -- Exibir Favoritos" +
+                "\n3 -- Sair " +
+                "\n################");
+    }
 }
