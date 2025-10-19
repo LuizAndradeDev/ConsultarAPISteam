@@ -6,7 +6,6 @@ import com.br.luizdev.Modelo.JsonModels.JogoInformacoes;
 import com.br.luizdev.Modelo.ObjetosModel.Jogo;
 import com.br.luizdev.Service.ConsumoAPI;
 import com.br.luizdev.Service.ConverteDados;
-import com.br.luizdev.Service.JogoRepositorio;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.core.type.TypeReference;
 
@@ -15,24 +14,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-
-
 public class ExecucaoPrincipal {
+    public record AppListWrapper(@JsonAlias("applist") AppList appList) {
+    }
+
+    public record AppList(@JsonAlias("apps") List<JogoDadosBusca> apps) {
+    }
+
     private Scanner scanner = new Scanner(System.in);
     private ConverteDados converter = new ConverteDados();
     private ConsumoAPI buscar = new ConsumoAPI();
     private final String listaDeJogos = "https://api.steampowered.com/ISteamApps/GetAppList/v2/";
     private final String dadosDeJogos = "https://store.steampowered.com/api/appdetails?appids=";
     private List<Jogo> listaDeFavoritos = new ArrayList<>();
-    private JogoRepositorio repositorio;
-
-    public record AppListWrapper(@JsonAlias("applist") AppList appList) {
-    }
-
-    public record AppList(@JsonAlias("apps") List<JogoDadosBusca> apps) {
-    }
-public ExecucaoPrincipal(JogoRepositorio repositorio) { this.repositorio = repositorio; }
-
 
 
 
@@ -91,10 +85,5 @@ public ExecucaoPrincipal(JogoRepositorio repositorio) { this.repositorio = repos
                 "\n2 -- Exibir Favoritos" +
                 "\n3 -- Sair " +
                 "\n################");
-    }
-
-    public void SalvarJogo(){
-
-
     }
 }
